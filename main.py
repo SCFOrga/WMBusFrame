@@ -16,11 +16,12 @@ def main():
             for i in telesplit:                                         # On parcourt les données
                 if previous == '16' and i == '68':                      # Si on a un doublon de trame
                     break                                               # On sort de la boucle
-                xe += i + ' '                                           # On ajoute les données à la variable
+                xe += i                                                 # On ajoute les données à la variable
                 previous = i                                            # On met à jour la variable
 
-            trame = Trame(telesplit)
-            print(trame)
+            trame = Trame(telesplit)                                    # On crée un objet trame
+            print(xe)                                                   # On affiche la trame
+            print(trame)                                                # On affiche les informations de la trame
 
             time.sleep(0.1)                                             # On attend 100ms
 
