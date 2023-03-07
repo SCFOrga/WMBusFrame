@@ -1,6 +1,6 @@
 # WMBus Frame Processing
 
-This project is designed to capture Wireless Meter Bus (WMBus) frames from a receiver, process those frames using the `trame.py` class file, and display the results in the console. There are three main files included in this project:
+This project is designed to capture Wireless Meter Bus (WMBus) frames from an Enless receiver, process those frames using the `trame.py` class file, and display the results in the console. There are three main files included in this project:
 
 - `trame.py`: This file contains the `Trame` class, which is used for processing the received frames.
 - `main.py`: This file is used to get the frames from the receiver using a serial port.
@@ -9,12 +9,20 @@ This project is designed to capture Wireless Meter Bus (WMBus) frames from a rec
 The results of the processing are displayed in the console. However they are written in french.
 Give me your discord if you want to help translate the results to english, or any other language.
 
+## Prerequisites
+
+- Python 3.9 or higher
+- A WMBus receiver
+- Some WMBus transmitters
+- A computer with a serial port
 
 ## Getting Started
 
-To get started with this project, you will need to have a receiver that is capable of capturing WMBus frames, as well as a computer with a serial port. You will also need to install Python 3.9 or higher on your computer.
+To begin with, you will need to install Python 3.9 or higher on your computer. You can download the latest version of Python from the [Python website](https://www.python.org/downloads/).
 
-Once you have the necessary hardware and software, you can clone this repository to your local machine and run the `main.py` file to start capturing frames.
+You then need to download the Enless A.I.R application from the [Enless website](https://enless-wireless.com/en/download-center/) and configure the Receiver as you need.
+
+When everything is ready, you can clone this repository to your local machine and run the `main.py` file to start capturing frames.
 
 ```sh
 git clone https://github.com/SCFOrga/WMBusFrame.git
