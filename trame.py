@@ -1,3 +1,11 @@
+"""
+Auteur: Quentin ROBERT
+Date: 2023-03-06
+Description: Classe Trame
+Cette classe permet de récupérer les informations d'une trame reçue par le récepteur WM-BUS.
+"""
+
+
 def gettx_id(telesplit):
     n3 = telesplit[5]
     n2 = telesplit[6]
@@ -33,6 +41,15 @@ def get_type(data):
     return device_type
 
 
+def battery_level(data):
+    value = data[len(data) - 1]
+    if value == '01':
+        battery = 'OK'
+    else:
+        battery = 'LOW'
+    return battery
+
+
 def determine_type(device_type):
     typestr = ''
     if device_type == '01':
@@ -62,11 +79,18 @@ def determine_type(device_type):
 
 
 def get_pulses(data):
-    pulse1 = data[6] + data[5] + data[4] + data[3]
-    pulse2 = data[10] + data[9] + data[8] + data[7]
-    pulse1 = int(pulse1, 16)
-    pulse2 = int(pulse2, 16)
+    pulse1 = int(data[3], 16) + int(data[4], 16)*2**8 + int(data[5], 16)*2**16 + int(data[6], 16)*2**24
+    pulse2 = int(data[7], 16) + int(data[8], 16)*2**8 + int(data[9], 16)*2**16 + int(data[10], 16)*2**24
     return pulse1, pulse2
+
+
+def get_temp(data):
+    value = int(data[3], 16) + int(data[4], 16)*2**8
+    if int(data[4]) & 0xFF == 0x80:
+        value = (65536 - value) / 10
+    else:
+        value = value / 10
+    return value
 
 
 class Trame:
@@ -76,16 +100,29 @@ class Trame:
         self.type = determine_type(get_type(self.data))
         self.length = get_length(telesplit)
         self.rssi = get_rssi(telesplit)
+        if self.type == 'Pulsation':
+            self.pulse1, self.pulse2 = get_pulses(self.data)
 
     def __str__(self):
-        return "Identifiant : " + self.identifier + "\n" + \
+        return "\n" + \
+                "Identifiant : " + self.identifier + "\n" + \
                "Type : " + self.type + "\n" + \
                "Longueur : " + str(self.length) + "\n" + \
-               "Données : " + ''.join(self.data) + "\n" + \
-               "RSSI : " + str(self.rssi) + "dbm"
+               "Données : " + self.data_type() + "\n" + \
+               "RSSI : " + str(self.rssi) + "dbm" + "\n" + \
+               "Batterie : " + battery_level(self.data) + "\n"
 
     def get_identifier(self):
         return self.identifier
+
+    def data_type(self):
+        if self.type == 'Pulsation':
+            value = "\n" + "    Pulse 1 : " + str(self.pulse1) + "\n" + "    Pulse 2 : " + str(self.pulse2)
+        elif self.type == 'Température':
+            value = "\n" + "    Température : " + str(get_temp(self.data)) + "°C"
+        else:
+            value = 'Données non disponibles pour ce type de trame inconnue'
+        return value
 
     def get_type(self):
         return self.type
