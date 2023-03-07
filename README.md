@@ -6,6 +6,10 @@ This project is designed to capture Wireless Meter Bus (WMBus) frames from a rec
 - `main.py`: This file is used to get the frames from the receiver using a serial port.
 - `tester.py`: This file can be used to test the `trame.py` file without having to use a serial port with a static frame.
 
+The results of the processing are displayed in the console. However they are written in french.
+Give me your discord if you want to help translate the results to english, or any other language.
+
+
 ## Getting Started
 
 To get started with this project, you will need to have a receiver that is capable of capturing WMBus frames, as well as a computer with a serial port. You will also need to install Python 3.9 or higher on your computer.
