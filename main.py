@@ -4,7 +4,7 @@ from trame import Trame
 
 
 def main():
-    ser = serial.Serial('COM10', 19200, parity='N', bytesize=8, stopbits=2, timeout=0.1)    # open serial port
+    ser = serial.Serial('COM10', 19200, parity='N', bytesize=8, stopbits=2, timeout=0.1)  # open serial port
 
     while True:                                                         # Boucle infinie
         if ser.in_waiting > 0:                                          # Si on a reçu des données

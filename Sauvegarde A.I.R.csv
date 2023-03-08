@@ -1,0 +1,3 @@
+"Device ID","Device Type","Periodicity","Retry Count","TX PULSE: Initial count 1/TX ANALOG: Wake Time","TX PULSE: Initial count 2","TX ENERGY: Slave ID","Baud Rate","Parity","Stop Bits","Data Bits","TX ENERGY: Register Nbr","TX ENERGY : Register Cnt","RX MODBUS ID","RX MODBUS: First register","RX MODBUS: First TX ENERGY Register","Last Configured"
+"20522485","RX MODBUS","NA","NA","NA","NA","NA","19200","None","2","8","NA","NA","1","31000","32000",""
+"21320244","TX PULSE","1","0","0","0","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","2023-02-24 09:04:17 OK"

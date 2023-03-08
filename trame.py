@@ -2,7 +2,6 @@
 Auteur: Quentin ROBERT
 Date: 2023-03-06
 Description: Classe Trame
-
 Cette classe permet de récupérer les informations d'une trame reçue par le récepteur WM-BUS.
 """
 
@@ -40,6 +39,15 @@ def get_rssi(telesplit):
 def get_type(data):
     device_type = data[1]
     return device_type
+
+
+def battery_level(data):
+    value = data[len(data) - 1]
+    if value == '01':
+        battery = 'OK'
+    else:
+        battery = 'LOW'
+    return battery
 
 
 def determine_type(device_type):
@@ -101,7 +109,8 @@ class Trame:
                "Type : " + self.type + "\n" + \
                "Longueur : " + str(self.length) + "\n" + \
                "Données : " + self.data_type() + "\n" + \
-               "RSSI : " + str(self.rssi) + "dbm" + "\n"
+               "RSSI : " + str(self.rssi) + "dbm" + "\n" + \
+               "Batterie : " + battery_level(self.data) + "\n"
 
     def get_identifier(self):
         return self.identifier
