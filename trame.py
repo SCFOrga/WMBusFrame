@@ -86,7 +86,8 @@ def get_pulses(data):
 
 def get_temp(data):
     value = int(data[3], 16) + int(data[4], 16)*2**8
-    if int(data[4]) & 0xFF == 0x80:
+    idk = "0x%s" % (data[4])
+    if int(idk, 16) & 0x80 == 0x80:
         value = (65536 - value) / 10
     else:
         value = value / 10
@@ -102,6 +103,8 @@ class Trame:
         self.rssi = get_rssi(telesplit)
         if self.type == 'Pulsation':
             self.pulse1, self.pulse2 = get_pulses(self.data)
+        if self.type == 'Température':
+            self.temp = get_temp(self.data)
 
     def __str__(self):
         return "\n" + \
@@ -119,7 +122,7 @@ class Trame:
         if self.type == 'Pulsation':
             value = "\n" + "    Pulse 1 : " + str(self.pulse1) + "\n" + "    Pulse 2 : " + str(self.pulse2)
         elif self.type == 'Température':
-            value = "\n" + "    Température : " + str(get_temp(self.data)) + "°C"
+            value = "\n" + "    Température : " + str(self.temp) + "°C"
         else:
             value = 'Données non disponibles pour ce type de trame inconnue'
         return value

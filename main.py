@@ -19,9 +19,13 @@ def main():
                 xe += i                                                 # On ajoute les données à la variable
                 previous = i                                            # On met à jour la variable
 
-            trame = Trame(telesplit)                                    # On crée un objet trame
-            print(xe)                                                   # On affiche la trame
-            print(trame)                                                # On affiche les informations de la trame
+            trame = Trame(telesplit)                                            # On affiche la trame
+
+            if trame.identifier[0:2] == '00':                           # Si l'identifiant commence par 00, ne pas afficher la trame
+                print("Trame ignorée : " + trame.identifier)             # On affiche un message
+            else:
+                print(xe)
+                print(trame)                                            # On affiche les informations de la trame
 
             time.sleep(0.1)                                             # On attend 100ms
 
