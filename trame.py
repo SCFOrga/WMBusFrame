@@ -94,6 +94,53 @@ def get_temp(data):
     return value
 
 
+def get_temp_humidity(data):
+    temp = int(data[3], 16) + int(data[4], 16)*2**8
+    if int(data[4], 16) & 0x80 == 0x80:
+        temp = (65536 - temp) / 10
+    else:
+        temp = temp / 10
+    humidity = int(data[5], 16) + int(data[6], 16)*2**8
+    humidity = humidity / 10
+    return temp, humidity
+
+
+def get_co2(data):
+    co2 = int(data[3], 16) + int(data[4], 16)*2**8
+    temp = int(data[5], 16) + int(data[6], 16)*2**8
+    idk = "0x%s" % (data[6])
+    if int(idk, 16) & 0x80 == 0x80:
+        temp = (65536 - temp) / 10
+    else:
+        temp = temp / 10
+    humidity = int(data[7], 16) + int(data[8], 16)*2**8
+    humidity = humidity / 10
+    lastminco2 = int(data[9], 16) + int(data[10], 16)*2**8
+    print(data[9])
+    print(data[10])
+    print(lastminco2)
+    co2sample = int(data[11], 16)
+    return co2, temp, humidity, lastminco2, co2sample
+
+
+def get_4_20_analog(data):
+    value = int(data[3], 16) + int(data[4], 16)*2**8
+    value = value / 100
+    return value
+
+
+def get_0_5_analog(data):
+    value = int(data[3], 16) + int(data[4], 16)*2**8
+    value = value / 100
+    return value
+
+
+def get_0_10_analog(data):
+    value = int(data[3], 16) + int(data[4], 16)*2**8
+    value = value / 100
+    return value
+
+
 class Trame:
     def __init__(self, telesplit):
         self.identifier = gettx_id(telesplit)
@@ -101,10 +148,22 @@ class Trame:
         self.type = determine_type(get_type(self.data))
         self.length = get_length(telesplit)
         self.rssi = get_rssi(telesplit)
-        if self.type == 'Pulsation':
+        if self.type == 'Pulsation' or self.type == 'Contact':
             self.pulse1, self.pulse2 = get_pulses(self.data)
-        if self.type == 'Température':
+        if self.type == 'Température' or self.type == 'PT100 Température':
             self.temp = get_temp(self.data)
+        if self.type == 'Température & Humidité':
+            self.temp, self.humidity = get_temp_humidity(self.data)
+        if self.type == 'CO2':
+            self.co2, self.temp, self.humidity, self.lastminco2, self.co2sample = get_co2(self.data)
+        if self.type == '4-20mA Analogique':
+            self.value = get_4_20_analog(self.data)
+        if self.type == '0-5V Analogique':
+            self.value = get_0_5_analog(self.data)
+        if self.type == '0-10V Analogique':
+            self.value = get_0_10_analog(self.data)
+        if self.type == "Compteur d'énergie":
+            self.pulse1, self.pulse2 = get_pulses(self.data)
 
     def __str__(self):
         return "\n" + \
@@ -119,10 +178,23 @@ class Trame:
         return self.identifier
 
     def data_type(self):
-        if self.type == 'Pulsation':
+        if self.type == 'Pulsation' or self.type == 'Contact':
             value = "\n" + "    Pulse 1 : " + str(self.pulse1) + "\n" + "    Pulse 2 : " + str(self.pulse2)
-        elif self.type == 'Température':
+        elif self.type == 'Température' or self.type == 'PT100 Température':
             value = "\n" + "    Température : " + str(self.temp) + "°C"
+        elif self.type == 'Température & Humidité':
+            value = "\n" + "    Température : " + str(self.temp) + "°C" + "\n" + "    Humidité : " + str(self.humidity)\
+                    + "%RH"
+        elif self.type == 'CO2':
+            value = "\n" + "    CO2 : " + str(self.co2) + "ppm" + "\n" + "    Température : " + str(self.temp) + "°C" + \
+                    "\n" + "    Humidité : " + str(self.humidity) + "%RH" + "\n" + "    CO2 dernier minimal : " + \
+                    str(self.lastminco2) + "ppm" + "\n" + "    CO2 sample : " + str(self.co2sample)
+        elif self.type == '4-20mA Analogique':
+            value = "\n" + "    Valeur : " + str(self.value) + "mA"
+        elif self.type == '0-5V Analogique':
+            value = "\n" + "    Valeur : " + str(self.value) + "V"
+        elif self.type == '0-10V Analogique':
+            value = "\n" + "    Valeur : " + str(self.value) + "V"
         else:
             value = 'Données non disponibles pour ce type de trame inconnue'
         return value
