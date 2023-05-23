@@ -2,9 +2,9 @@
 Auteur: Quentin ROBERT
 Date: 2023-03-06
 Description: Classe Trame
-Cette classe permet de récupérer les informations d'une trame reçue par le récepteur WM-BUS.
+Cette classe permet de recuperer les informations d'une trame reçue par le recepteur WM-BUS.
 """
-
+    
 
 def gettx_id(telesplit):
     n3 = telesplit[5]
@@ -53,15 +53,15 @@ def battery_level(data):
 def determine_type(device_type):
     typestr = ''
     if device_type == '01':
-        typestr = 'Température'
+        typestr = 'Temperature'
     elif device_type == '02':
-        typestr = 'Température & Humidité'
+        typestr = 'Temperature & Humidite'
     elif device_type == '03':
-        typestr = 'PT100 Température'
+        typestr = 'PT100 Temperature'
     elif device_type == '04':
         typestr = 'Pulsation'
     elif device_type == '05':
-        typestr = "Compteur d'énergie"
+        typestr = "Compteur d'energie"
     elif device_type == '23':
         typestr = 'Contact'
     elif device_type == '24':
@@ -150,9 +150,11 @@ class Trame:
         self.rssi = get_rssi(telesplit)
         if self.type == 'Pulsation' or self.type == 'Contact':
             self.pulse1, self.pulse2 = get_pulses(self.data)
-        if self.type == 'Température' or self.type == 'PT100 Température':
+            if self.identifier == '11523820':
+                self.pulse2 = 0
+        if self.type == 'Temperature' or self.type == 'PT100 Temperature':
             self.temp = get_temp(self.data)
-        if self.type == 'Température & Humidité':
+        if self.type == 'Temperature & Humidite':
             self.temp, self.humidity = get_temp_humidity(self.data)
         if self.type == 'CO2':
             self.co2, self.temp, self.humidity, self.lastminco2, self.co2sample = get_co2(self.data)
@@ -162,7 +164,7 @@ class Trame:
             self.value = get_0_5_analog(self.data)
         if self.type == '0-10V Analogique':
             self.value = get_0_10_analog(self.data)
-        if self.type == "Compteur d'énergie":
+        if self.type == "Compteur d'energie":
             self.pulse1, self.pulse2 = get_pulses(self.data)
 
     def __str__(self):
@@ -170,7 +172,7 @@ class Trame:
                 "Identifiant : " + self.identifier + "\n" + \
                "Type : " + self.type + "\n" + \
                "Longueur : " + str(self.length) + "\n" + \
-               "Données : " + self.data_type() + "\n" + \
+               "Donnees : " + self.data_type() + "\n" + \
                "RSSI : " + str(self.rssi) + "dbm" + "\n" + \
                "Batterie : " + battery_level(self.data) + "\n"
 
@@ -180,14 +182,14 @@ class Trame:
     def data_type(self):
         if self.type == 'Pulsation' or self.type == 'Contact':
             value = "\n" + "    Pulse 1 : " + str(self.pulse1) + "\n" + "    Pulse 2 : " + str(self.pulse2)
-        elif self.type == 'Température' or self.type == 'PT100 Température':
-            value = "\n" + "    Température : " + str(self.temp) + "°C"
-        elif self.type == 'Température & Humidité':
-            value = "\n" + "    Température : " + str(self.temp) + "°C" + "\n" + "    Humidité : " + str(self.humidity)\
+        elif self.type == 'Temperature' or self.type == 'PT100 Temperature':
+            value = "\n" + "    Temperature : " + str(self.temp) + "°C"
+        elif self.type == 'Temperature & Humidite':
+            value = "\n" + "    Temperature : " + str(self.temp) + "°C" + "\n" + "    Humidite : " + str(self.humidity)\
                     + "%RH"
         elif self.type == 'CO2':
-            value = "\n" + "    CO2 : " + str(self.co2) + "ppm" + "\n" + "    Température : " + str(self.temp) + "°C" + \
-                    "\n" + "    Humidité : " + str(self.humidity) + "%RH" + "\n" + "    CO2 dernier minimal : " + \
+            value = "\n" + "    CO2 : " + str(self.co2) + "ppm" + "\n" + "    Temperature : " + str(self.temp) + "°C" + \
+                    "\n" + "    Humidite : " + str(self.humidity) + "%RH" + "\n" + "    CO2 dernier minimal : " + \
                     str(self.lastminco2) + "ppm" + "\n" + "    CO2 sample : " + str(self.co2sample)
         elif self.type == '4-20mA Analogique':
             value = "\n" + "    Valeur : " + str(self.value) + "mA"
@@ -196,7 +198,7 @@ class Trame:
         elif self.type == '0-10V Analogique':
             value = "\n" + "    Valeur : " + str(self.value) + "V"
         else:
-            value = 'Données non disponibles pour ce type de trame inconnue'
+            value = 'Donnees non disponibles pour ce type de trame inconnue'
         return value
 
     def get_type(self):
@@ -210,3 +212,4 @@ class Trame:
 
     def get_rssi(self):
         return self.rssi
+

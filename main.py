@@ -1,10 +1,11 @@
+#!/usr/local/bin/python3.11
 import serial
 from trame import Trame
 from mysqlol import insert_data
 
 
 def main():
-    ser = serial.Serial('COM10', 19200, parity='N', bytesize=8, stopbits=2, timeout=0.1)  # open serial port
+    ser = serial.Serial('/dev/ttyUSB0', 19200, parity='N', bytesize=8, stopbits=2, timeout=0.1)  # open serial port
     while True:                                                         # Boucle infinie
         if ser.in_waiting > 0:                                          # Si on a reçu des données
             telegram = ser.readall().hex(' ')                           # On récupère les données
@@ -17,14 +18,21 @@ def main():
                 xe += i                                                 # On ajoute les données à la variable
                 previous = i                                            # On met à jour la variable
 
-            trame = Trame(telesplit)
-            if trame.identifier.startswith('0'):
-                continue
-            else:
-                print("Nouvelle trame : ")                              # On affiche un message
-                print(xe)
-                print(trame)                                            # On affiche les informations de la trame
-                insert_data(trame)
+            try:
+                trame = Trame(telesplit)
+            except IndexError as e:
+                print(e.__str__)
+            try:
+                if trame.identifier.startswith('0') or trame.identifier.startswith('3'):
+                    continue
+                else:
+                    print("Nouvelle trame :")
+                    print(xe)
+                    print(trame)                                            # On affiche les informations de la trame
+                    insert_data(trame)
+                    del trame
+            except UnboundLocalError as e:
+                print(e.__str__) 
 
 
 if __name__ == '__main__':
