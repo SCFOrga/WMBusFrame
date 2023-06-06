@@ -29,7 +29,6 @@ def main():
                     print("Nouvelle trame :")
                     print(xe)
                     print(trame)                                            # On affiche les informations de la trame
-                    insert_data(trame)
                     del trame
             except UnboundLocalError as e:
                 print(e.__str__) 

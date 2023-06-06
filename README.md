@@ -11,7 +11,7 @@ Give me your discord if you want to help translate the results to english, or an
 
 ## Prerequisites
 
-- Python 3.11 or higher
+- Python 3.9 or higher
 - A WMBus receiver
 - Some WMBus transmitters
 - A computer with a serial port

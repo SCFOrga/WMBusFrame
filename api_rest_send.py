@@ -3,7 +3,7 @@
 import json
 import requests
 import mysql.connector
-import mysqlol
+import mysqlco
 import time
 # Fonctions
 
@@ -18,8 +18,8 @@ def sendistribute():
         password="eclipse",
         database="SCFDonnees"
     )
-    myjson = mysqlol.distribute(sql)
-    myspecs = mysqlol.get_specs()
+    myjson = mysqlco.distribute(sql)
+    myspecs = mysqlco.get_specs()
     id_eau = 0
     id_chauff = 0
     id_gaz = 0

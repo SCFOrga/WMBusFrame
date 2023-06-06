@@ -4,7 +4,7 @@ Tester for the class Trame in trame.py
 """
 
 from trame import Trame
-from mysqlol import insert_data, list_data, count_id
+from mysqlco import insert_data, list_data, count_id
 
 
 def main():
@@ -12,6 +12,7 @@ def main():
     telesplit = tel.split(' ')
     trame = Trame(telesplit)
     count_id()
+    print(tel + "\n")
     print(trame)
 
 

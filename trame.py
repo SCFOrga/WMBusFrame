@@ -3,7 +3,7 @@ Auteur: Quentin ROBERT
 Date: 2023-03-06
 Description: Classe Trame
 Cette classe permet de recuperer les informations d'une trame reçue par le recepteur WM-BUS.
-"""
+d"""
     
 
 def gettx_id(telesplit):
