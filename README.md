@@ -19,7 +19,7 @@ Give me your discord if you want to help translate the results to english, or an
 
 ## Getting Started
 
-To begin with, you will need to install Python 3.9 or higher on your computer. You can download the latest version of Python from the [Python website](https://www.python.org/downloads/).
+To begin with, you will need to install Python 3.11 or higher on your computer. You can download the latest version of Python from the [Python website](https://www.python.org/downloads/).
 
 You then need to download the Enless A.I.R application from the [Enless website](https://enless-wireless.com/en/download-center/) and configure the Receiver as you need.
 
