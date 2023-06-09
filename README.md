@@ -11,7 +11,7 @@ Give me your discord if you want to help translate the results to english, or an
 
 ## Prerequisites
 
-- Python 3.9 or higher
+- Python 3.11 or higher
 - A WMBus receiver
 - Some WMBus transmitters
 - A computer with a serial port
@@ -23,6 +23,10 @@ To begin with, you will need to install Python 3.9 or higher on your computer. Y
 You then need to download the Enless A.I.R application from the [Enless website](https://enless-wireless.com/en/download-center/) and configure the Receiver as you need.
 
 When everything is ready, you can clone this repository to your local machine and run the `main.py` file to start capturing frames.
+
+If the USB port is not the same for you, feel free to modify `main.py` to select the right serial port (example: tty\USB0 on linux | Use `sudo dmesg | grep tty`)
+
+Before anything you will have to install mariadb with the right database, the database is given in the repository, you can import the database using the file `BDD.sql`
 
 ```sh
 git clone https://github.com/SCFOrga/WMBusFrame.git
