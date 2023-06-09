@@ -41,7 +41,7 @@ To use this project, simply run the `main.py` file and wait for the frames to be
 
 You can modify the serial values in the `main.py` file to suit your needs. For example, you can change the baud rate, parity, or stop bits. Simply open the main.py file in a text editor and modify the values as desired.
 
-You can also use the `tester.py` file to test the `trame.py` file without having to use a serial port. Simply run the `tester.py` file and the static frame will be processed and the results will be displayed in the console.
+You can also use the `tester.py` file to test the `trame.py` file without having to use a serial port. Simply run the `tester.py` file and the static frame will be processed and the results will be displayed in the console and uploaded onto the database.
 
 ## Credits
 
