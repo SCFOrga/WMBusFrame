@@ -15,6 +15,7 @@ Give me your discord if you want to help translate the results to english, or an
 - A WMBus receiver
 - Some WMBus transmitters
 - A computer with a serial port
+- MariaDB with the good database (`BDD.sql`)
 
 ## Getting Started
 
